@@ -1,7 +1,9 @@
-# Draft UML (first pass, no reference file)
+# Draft UML (unguided first pass, no reference file)
 
-This is the first diagram from a chat that only had `bytebites_spec.md` attached.
-I'm keeping it to compare against the final design.
+This draft was written by Claude Code (the AI assistant I used for this lab) from
+`bytebites_spec.md` alone, before the reference file existed. It deliberately shows what
+an assistant with no ground rules tends to produce: extra classes and features. I'm keeping
+it to compare against the final design.
 
 ```mermaid
 classDiagram

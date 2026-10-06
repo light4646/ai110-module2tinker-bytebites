@@ -42,7 +42,7 @@ classDiagram
 - **Menu**: the full collection of items, which can be filtered by category and sorted.
 - **Order**: one transaction that groups the selected items and computes their total cost.
 
-## How this differs from the first draft (`draft_from_copilot.md`)
+## How this differs from the first draft (`draft_unguided.md`)
 
 The first chat had no ground rules, so it invented `User`, `Payment` and
 `RecommendationEngine`, plus login, discounts and order status. With the reference file
