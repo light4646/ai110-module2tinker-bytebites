@@ -23,11 +23,13 @@ classDiagram
         +filter_by_category(category) list~MenuItem~
         +sort_by_price(descending) list~MenuItem~
         +sort_by_popularity() list~MenuItem~
+        +display(items, title) str
     }
     class Order {
         +list~MenuItem~ items
         +add_item(item)
         +compute_total() float
+        +receipt() str
     }
 
     Menu "1" o-- "*" MenuItem : holds
@@ -48,3 +50,5 @@ The first chat had no ground rules, so it invented `User`, `Payment` and
 `RecommendationEngine`, plus login, discounts and order status. With the reference file
 attached, the assistant stayed within the four classes and the attributes in the spec. The only
 additions are methods needed for the spec's behaviors: filtering, sorting, totals and verification.
+`display()` and `receipt()` were added afterwards only to print the menu and order as readable
+tables in the terminal. They don't add any new data or features.

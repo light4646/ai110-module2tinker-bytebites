@@ -18,6 +18,17 @@ class MenuItem:
         return f"MenuItem({self.name!r}, ${self.price:.2f}, {self.category!r}, {self.popularity})"
 
 
+def format_items(items, title):
+    """Return items as a readable table with a title, for printing in the terminal."""
+    width = 44
+    lines = [title, "-" * width]
+    if not items:
+        lines.append("(no items)")
+    for item in items:
+        lines.append(f"{item.name:<18}{'$' + format(item.price, '.2f'):>8}   {item.category:<10}★{item.popularity}")
+    return "\n".join(lines)
+
+
 class Menu:
     """The full collection of items the app sells."""
 
@@ -40,6 +51,10 @@ class Menu:
         """Return items sorted from most to least popular."""
         return sorted(self.items, key=lambda item: item.popularity, reverse=True)
 
+    def display(self, items=None, title="ByteBites Menu"):
+        """Return the menu (or a filtered/sorted list of its items) as a readable table."""
+        return format_items(self.items if items is None else items, title)
+
 
 class Order:
     """One transaction: the items a customer selected."""
@@ -54,6 +69,14 @@ class Order:
     def compute_total(self):
         """Return the total cost of all items, rounded to cents (0.0 if empty)."""
         return round(sum(item.price for item in self.items), 2)
+
+    def receipt(self):
+        """Return the order as a readable receipt ending with the total."""
+        width = 44
+        lines = ["Your Order", "-" * width]
+        lines += [f"{item.name:<34}{'$' + format(item.price, '.2f'):>10}" for item in self.items] or ["(no items)"]
+        lines += ["-" * width, f"{'Total':<34}{'$' + format(self.compute_total(), '.2f'):>10}"]
+        return "\n".join(lines)
 
 
 class Customer:
@@ -80,16 +103,22 @@ if __name__ == "__main__":
 
     menu = Menu([burger, soda, tea])
     menu.add_item(cake)
-    print("Drinks:", menu.filter_by_category("drinks"))
-    print("By price:", menu.sort_by_price())
-    print("By popularity:", menu.sort_by_popularity())
+    print(menu.display())
+    print()
+    print(menu.display(menu.filter_by_category("drinks"), "Drinks only"))
+    print()
+    print(menu.display(menu.sort_by_price(), "Sorted by price (cheapest first)"))
+    print()
+    print(menu.display(menu.sort_by_popularity(), "Sorted by popularity (most popular first)"))
+    print()
 
     order = Order()
     order.add_item(burger)
     order.add_item(soda)
-    print("Order total:", order.compute_total())
+    print(order.receipt())
+    print()
 
     customer = Customer("Nour")
-    print("Verified before purchase:", customer.is_verified())
+    print(f"{customer.name} verified before purchase: {customer.is_verified()}")
     customer.add_purchase(order)
-    print("Verified after purchase:", customer.is_verified())
+    print(f"{customer.name} verified after purchase:  {customer.is_verified()}")

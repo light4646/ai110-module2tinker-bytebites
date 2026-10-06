@@ -100,3 +100,23 @@ def test_customer_verified_after_purchase(items):
     customer.add_purchase(Order([items["burger"]]))
     assert customer.is_verified()
     assert len(customer.purchase_history) == 1
+
+
+# --- Display ---
+
+def test_menu_display_lists_every_item(menu):
+    """The menu table shows each item's name and price."""
+    table = menu.display()
+    assert "Spicy Burger" in table and "$10.00" in table
+    assert "Iced Tea" in table and "$3.50" in table
+
+
+def test_menu_display_of_empty_filter_says_no_items(menu):
+    """Displaying an empty filter result says '(no items)' instead of a blank table."""
+    assert "(no items)" in menu.display(menu.filter_by_category("Breakfast"), "Breakfast")
+
+
+def test_receipt_ends_with_total(items):
+    """The receipt's last line is the order total."""
+    receipt = Order([items["burger"], items["soda"]]).receipt()
+    assert receipt.splitlines()[-1].endswith("$15.00")
